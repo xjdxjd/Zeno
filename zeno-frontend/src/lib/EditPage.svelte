@@ -4,7 +4,10 @@
 
   let { record, onNavigate }: { record: Record; onNavigate: (page: string) => void } = $props();
 
+  // 编辑表单以打开记录时的值为初始快照，之后不跟随外部变化
+  // svelte-ignore state_referenced_locally
   let title = $state(record.title);
+  // svelte-ignore state_referenced_locally
   let fields = $state<Record<string, string>>({ ...record.fields });
   let error = $state('');
   let loading = $state(false);
@@ -96,6 +99,7 @@
       <h2 class="font-medium text-sm">编辑记录</h2>
       <button
         onclick={() => onNavigate('main')}
+        aria-label="关闭"
         class="text-gray-400 hover:text-gray-600 transition"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,8 +110,9 @@
 
     <form onsubmit={(e) => { e.preventDefault(); handleSubmit(); }} class="p-4 space-y-4">
       <div>
-        <label class="block text-xs font-medium text-gray-600 mb-1">类别</label>
+        <label for="ep-category" class="block text-xs font-medium text-gray-600 mb-1">类别</label>
         <input
+          id="ep-category"
           type="text"
           value={record.category}
           disabled
@@ -117,8 +122,9 @@
       </div>
 
       <div>
-        <label class="block text-xs font-medium text-gray-600 mb-1">标题 <span class="text-red-500">*</span></label>
+        <label for="ep-title" class="block text-xs font-medium text-gray-600 mb-1">标题 <span class="text-red-500">*</span></label>
         <input
+          id="ep-title"
           type="text"
           bind:value={title}
           class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none text-sm"
@@ -128,10 +134,11 @@
       {#if isDatabaseCategory()}
         <!-- URL -->
         <div>
-          <label class="block text-xs font-medium text-gray-600 mb-1">URL</label>
-          <input
-            type="text"
-            bind:value={fields['URL']}
+            <label for="ep-url" class="block text-xs font-medium text-gray-600 mb-1">URL</label>
+            <input
+              id="ep-url"
+              type="text"
+              bind:value={fields['URL']}
             class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none text-sm"
           />
         </div>
@@ -139,18 +146,20 @@
         <!-- Host + Port -->
         <div class="flex gap-4">
           <div class="flex-1">
-            <label class="block text-xs font-medium text-gray-600 mb-1">Host</label>
-            <input
-              type="text"
-              bind:value={fields['Host']}
+              <label for="ep-host" class="block text-xs font-medium text-gray-600 mb-1">Host</label>
+              <input
+                id="ep-host"
+                type="text"
+                bind:value={fields['Host']}
               class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none text-sm"
             />
           </div>
           <div class="w-32">
-            <label class="block text-xs font-medium text-gray-600 mb-1">Port</label>
-            <input
-              type="text"
-              bind:value={fields['Port']}
+              <label for="ep-port" class="block text-xs font-medium text-gray-600 mb-1">Port</label>
+              <input
+                id="ep-port"
+                type="text"
+                bind:value={fields['Port']}
               class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none text-sm"
             />
           </div>
@@ -159,18 +168,20 @@
         <!-- 数据库 + Schema -->
         <div class="flex gap-4">
           <div class="flex-1">
-            <label class="block text-xs font-medium text-gray-600 mb-1">数据库</label>
-            <input
-              type="text"
-              bind:value={fields['数据库']}
+              <label for="ep-db" class="block text-xs font-medium text-gray-600 mb-1">数据库</label>
+              <input
+                id="ep-db"
+                type="text"
+                bind:value={fields['数据库']}
               class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none text-sm"
             />
           </div>
           <div class="flex-1">
-            <label class="block text-xs font-medium text-gray-600 mb-1">Schema</label>
-            <input
-              type="text"
-              bind:value={fields['Schema']}
+              <label for="ep-schema" class="block text-xs font-medium text-gray-600 mb-1">Schema</label>
+              <input
+                id="ep-schema"
+                type="text"
+                bind:value={fields['Schema']}
               class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none text-sm"
             />
           </div>
@@ -178,21 +189,23 @@
 
         <!-- 用户名 -->
         <div>
-          <label class="block text-xs font-medium text-gray-600 mb-1">用户名</label>
-          <input
-            type="text"
-            bind:value={fields['用户名']}
+            <label for="ep-username" class="block text-xs font-medium text-gray-600 mb-1">用户名</label>
+            <input
+              id="ep-username"
+              type="text"
+              bind:value={fields['用户名']}
             class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none text-sm"
           />
         </div>
 
         <!-- 密码 -->
         <div>
-          <label class="block text-xs font-medium text-gray-600 mb-1">密码</label>
-          <div class="flex gap-2">
-            <input
-              type="password"
-              bind:value={fields['密码']}
+            <label for="ep-password" class="block text-xs font-medium text-gray-600 mb-1">密码</label>
+            <div class="flex gap-2">
+              <input
+                id="ep-password"
+                type="password"
+                bind:value={fields['密码']}
               class="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none text-sm"
             />
             <button
@@ -206,14 +219,15 @@
           </div>
         </div>
       {:else}
-        {#each getSortedEntries() as [key, _]}
-          <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">{key}</label>
-            {#if key.includes('密码') || key.toLowerCase().includes('password')}
-              <div class="flex gap-2">
-                <input
-                  type="password"
-                  bind:value={fields[key]}
+          {#each getSortedEntries() as [key, _]}
+            <div>
+              <label for="ep-f-{key}" class="block text-xs font-medium text-gray-600 mb-1">{key}</label>
+              {#if key.includes('密码') || key.toLowerCase().includes('password')}
+                <div class="flex gap-2">
+                  <input
+                    id="ep-f-{key}"
+                    type="password"
+                    bind:value={fields[key]}
                   class="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none text-sm"
                 />
                 <button
@@ -225,10 +239,11 @@
                   生成
                 </button>
               </div>
-            {:else}
-              <input
-                type="text"
-                bind:value={fields[key]}
+              {:else}
+                <input
+                  id="ep-f-{key}"
+                  type="text"
+                  bind:value={fields[key]}
                 class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none text-sm"
               />
             {/if}

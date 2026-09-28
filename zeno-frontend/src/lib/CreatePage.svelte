@@ -86,6 +86,7 @@
       <h2 class="font-medium text-sm">新建记录</h2>
       <button
         onclick={() => onNavigate('main')}
+        aria-label="关闭"
         class="text-gray-400 hover:text-gray-600 transition"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,8 +97,9 @@
 
     <form onsubmit={(e) => { e.preventDefault(); handleSubmit(); }} class="p-4 space-y-4">
       <div>
-        <label class="block text-xs font-medium text-gray-600 mb-1">类别</label>
+        <label for="cp-category" class="block text-xs font-medium text-gray-600 mb-1">类别</label>
         <select
+          id="cp-category"
           bind:value={category}
           onchange={handleCategoryChange}
           class="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none text-sm"
@@ -110,8 +112,9 @@
       </div>
 
       <div>
-        <label class="block text-xs font-medium text-gray-600 mb-1">标题 <span class="text-red-500">*</span></label>
+        <label for="cp-title" class="block text-xs font-medium text-gray-600 mb-1">标题 <span class="text-red-500">*</span></label>
         <input
+          id="cp-title"
           type="text"
           bind:value={title}
           placeholder="例如：GitHub 账号"
@@ -123,8 +126,9 @@
         {#if isDatabaseCategory()}
           <!-- URL -->
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">URL</label>
+            <label for="cp-url" class="block text-xs font-medium text-gray-600 mb-1">URL</label>
             <input
+              id="cp-url"
               type="text"
               bind:value={fields['URL']}
               placeholder="请输入URL"
@@ -135,8 +139,9 @@
           <!-- Host + Port -->
           <div class="flex gap-4">
             <div class="flex-1">
-              <label class="block text-xs font-medium text-gray-600 mb-1">Host</label>
+              <label for="cp-host" class="block text-xs font-medium text-gray-600 mb-1">Host</label>
               <input
+                id="cp-host"
                 type="text"
                 bind:value={fields['Host']}
                 placeholder="请输入Host"
@@ -144,8 +149,9 @@
               />
             </div>
             <div class="w-32">
-              <label class="block text-xs font-medium text-gray-600 mb-1">Port</label>
+              <label for="cp-port" class="block text-xs font-medium text-gray-600 mb-1">Port</label>
               <input
+                id="cp-port"
                 type="text"
                 bind:value={fields['Port']}
                 placeholder="端口"
@@ -157,8 +163,9 @@
           <!-- 数据库 + Schema -->
           <div class="flex gap-4">
             <div class="flex-1">
-              <label class="block text-xs font-medium text-gray-600 mb-1">数据库</label>
+              <label for="cp-db" class="block text-xs font-medium text-gray-600 mb-1">数据库</label>
               <input
+                id="cp-db"
                 type="text"
                 bind:value={fields['数据库']}
                 placeholder="请输入数据库名"
@@ -166,8 +173,9 @@
               />
             </div>
             <div class="flex-1">
-              <label class="block text-xs font-medium text-gray-600 mb-1">Schema</label>
+              <label for="cp-schema" class="block text-xs font-medium text-gray-600 mb-1">Schema</label>
               <input
+                id="cp-schema"
                 type="text"
                 bind:value={fields['Schema']}
                 placeholder="请输入Schema"
@@ -178,8 +186,9 @@
 
           <!-- 用户名 -->
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">用户名</label>
+            <label for="cp-username" class="block text-xs font-medium text-gray-600 mb-1">用户名</label>
             <input
+              id="cp-username"
               type="text"
               bind:value={fields['用户名']}
               placeholder="请输入用户名"
@@ -189,9 +198,10 @@
 
           <!-- 密码 -->
           <div>
-            <label class="block text-xs font-medium text-gray-600 mb-1">密码</label>
+            <label for="cp-password" class="block text-xs font-medium text-gray-600 mb-1">密码</label>
             <div class="flex gap-2">
               <input
+                id="cp-password"
                 type="password"
                 bind:value={fields['密码']}
                 placeholder="请输入密码"
@@ -210,10 +220,11 @@
         {:else}
           {#each Object.entries(fields) as [key, _]}
             <div>
-              <label class="block text-xs font-medium text-gray-600 mb-1">{key}</label>
+              <label for="cp-f-{key}" class="block text-xs font-medium text-gray-600 mb-1">{key}</label>
               {#if key.includes('密码') || key.toLowerCase().includes('password')}
                 <div class="flex gap-2">
                   <input
+                    id="cp-f-{key}"
                     type="password"
                     bind:value={fields[key]}
                     placeholder="请输入{key}"
@@ -230,6 +241,7 @@
                 </div>
               {:else}
                 <input
+                  id="cp-f-{key}"
                   type="text"
                   bind:value={fields[key]}
                   placeholder="请输入{key}"

@@ -58,7 +58,7 @@ fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
-        .manage(AppState::new())
+        .manage(AppState::default())
         .invoke_handler(tauri::generate_handler![
             check_vault_exists,
             setup_master_password,
@@ -158,10 +158,8 @@ fn main() {
                     api.prevent_close();
                 }
                 // 快速搜索窗口失焦时自动隐藏
-                tauri::WindowEvent::Focused(false) => {
-                    if window.label() == "quick" {
-                        let _ = window.hide();
-                    }
+                tauri::WindowEvent::Focused(false) if window.label() == "quick" => {
+                    let _ = window.hide();
                 }
                 _ => {}
             }

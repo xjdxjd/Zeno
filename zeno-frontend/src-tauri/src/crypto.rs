@@ -31,13 +31,13 @@ pub struct AppState {
     pub vault_path: PathBuf,
 }
 
-impl AppState {
-    pub fn new() -> Self {
+impl Default for AppState {
+    fn default() -> Self {
         let vault_path = dirs::data_dir()
             .unwrap_or_else(|| PathBuf::from("."))
             .join("zeno")
             .join("vault.enc");
-        
+
         Self {
             key: Mutex::new(None),
             vault: Mutex::new(None),

@@ -60,6 +60,7 @@
       <h2 class="font-medium text-sm">密码生成器</h2>
       <button
         onclick={() => onNavigate('main')}
+        aria-label="关闭"
         class="text-gray-400 hover:text-gray-600 transition"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,10 +73,11 @@
       <!-- 长度 -->
       <div>
         <div class="flex justify-between items-center mb-2">
-          <label class="text-xs font-medium text-gray-600">长度</label>
+          <label for="gen-length" class="text-xs font-medium text-gray-600">长度</label>
           <span class="text-sm font-mono">{length}</span>
         </div>
         <input
+          id="gen-length"
           type="range"
           min="8"
           max="64"
@@ -90,10 +92,10 @@
 
       <!-- 字符集 -->
       <div>
-        <label class="text-xs font-medium text-gray-600 mb-2 block">字符集</label>
+        <label for="gen-cb-uppercase" class="text-xs font-medium text-gray-600 mb-2 block">字符集</label>
         <div class="grid grid-cols-2 gap-2">
           <label class="flex items-center gap-2 p-2 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition">
-            <input type="checkbox" bind:checked={uppercase} class="w-3.5 h-3.5 text-gray-900 bg-gray-200 border-gray-300 rounded" />
+            <input id="gen-cb-uppercase" type="checkbox" bind:checked={uppercase} class="w-3.5 h-3.5 text-gray-900 bg-gray-200 border-gray-300 rounded" />
             <span class="text-xs">大写字母 A-Z</span>
           </label>
           <label class="flex items-center gap-2 p-2 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition">

@@ -1,5 +1,6 @@
 use crate::crypto::*;
 use tauri::{Manager, State};
+use std::cmp::Reverse;
 use std::collections::HashMap;
 use chrono::Utc;
 use uuid::Uuid;
@@ -28,8 +29,8 @@ pub fn setup_master_password(state: State<'_, AppState>, password: String) -> Re
     let config_path = state.vault_path.parent().unwrap().join("config.json");
     std::fs::create_dir_all(config_path.parent().unwrap()).map_err(|e| e.to_string())?;
     let config = serde_json::json!({
-        "salt": STANDARD.encode(&salt),
-        "key": STANDARD.encode(&key),
+        "salt": STANDARD.encode(salt),
+        "key": STANDARD.encode(key),
     });
     std::fs::write(&config_path, serde_json::to_string_pretty(&config).unwrap()).map_err(|e| e.to_string())?;
     
@@ -72,7 +73,7 @@ pub fn get_records(state: State<'_, AppState>) -> Result<Vec<Record>, String> {
     match &*vault {
         Some(v) => {
             let mut records = v.records.clone();
-            records.sort_by(|a, b| b.updated_at.cmp(&a.updated_at));
+            records.sort_by_key(|r| Reverse(r.updated_at));
             Ok(records)
         }
         None => Err("保险库未解锁".to_string()),
@@ -160,7 +161,7 @@ pub fn search_records(state: State<'_, AppState>, query: String) -> Result<Vec<R
                 })
                 .cloned()
                 .collect();
-            filtered.sort_by(|a, b| b.updated_at.cmp(&a.updated_at));
+            filtered.sort_by_key(|r| Reverse(r.updated_at));
             Ok(filtered)
         }
         None => Err("保险库未解锁".to_string()),
