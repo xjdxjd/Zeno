@@ -1,0 +1,2 @@
+# 图标生成脚本为一次性开发工具，不计入 GitHub 语言统计
+*.py linguist-generated
