@@ -63,19 +63,16 @@ npm install
 npm run tauri dev
 ```
 
-## 构建安装包
+## 构建
 
 ```bash
 cd zeno-frontend
-npx tauri build -b nsis
+npx tauri build --no-bundle
 ```
 
-产物：
+产物为绿色单文件 `src-tauri/target/release/zeno.exe`（前端资源已嵌入，放到任意位置双击即用，无需安装）。
 
-- 安装包：`src-tauri/target/release/bundle/nsis/Zeno_1.0.0_x64-setup.exe`
-- 绿色单文件：`src-tauri/target/release/zeno.exe`
-
-> 注意：`cargo build` 不会嵌入前端资源，必须用 `tauri build`。
+> 注意：`cargo build` 不会嵌入前端资源，必须用 `tauri build`；如需 NSIS 安装包，用 `npx tauri build -b nsis`。
 
 ## 安全说明
 
